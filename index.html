@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #5b4b8a;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background-color: #262626;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+      width: 280px;
+    }
+
+    #display {
+      width: 100%;
+      height: 60px;
+      background-color: #ffffff;
+      color: #000000;
+      text-align: right;
+      font-size: 28px;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      height: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .btn-num {
+      background-color: #3f3f3f;
+      color: #ffffff;
+    }
+
+    .btn-op {
+      background-color: #f39c12;
+      color: #ffffff;
+    }
+
+
+    .btn-clear {
+      background-color: #e74c3c;
+      color: #ffffff;
+    }
+
+    .btn-del {
+      background-color: #7f8c8d;
+      color: #ffffff;
+    }
+
+    .btn-equal {
+      background-color: #27ae60;
+      color: #ffffff;
+      grid-row: span 2;
+      height: 110px;
+    }
+
+    .btn-zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <input type="text" id="display" readonly value="">
+
+    <div class="buttons-grid">
+      <button class="btn-clear" onclick="clearAll()">C</button>
+      <button class="btn-del" onclick="deleteChar()">DEL</button>
+      <button class="btn-op" onclick="press('/')">/</button>
+      <button class="btn-op" onclick="press('*')">*</button>
+
+      <button class="btn-num" onclick="press('7')">7</button>
+      <button class="btn-num" onclick="press('8')">8</button>
+      <button class="btn-num" onclick="press('9')">9</button>
+      <button class="btn-op" onclick="press('-')">-</button>
+
+      <button class="btn-num" onclick="press('4')">4</button>
+      <button class="btn-num" onclick="press('5')">5</button>
+      <button class="btn-num" onclick="press('6')">6</button>
+      <button class="btn-op" onclick="press('+')">+</button>
+
+      <button class="btn-num" onclick="press('1')">1</button>
+      <button class="btn-num" onclick="press('2')">2</button>
+      <button class="btn-num" onclick="press('3')">3</button>
+      <button class="btn-equal" onclick="calculateResult()">=</button>
+
+      <button class="btn-num btn-zero" onclick="press('0')">0</button>
+      <button class="btn-num" onclick="press('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    var display = document.getElementById("display");
+
+    function press(val) {
+      display.value = display.value + val;
+    }
+
+    function clearAll() {
+      display.value = "";
+    }
+
+    function deleteChar() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calculateResult() {
+      var text = display.value;
+      var op = "";
+
+      if (text.includes("+")) {
+        op = "+";
+      } else if (text.includes("-")) {
+        op = "-";
+      } else if (text.includes("*")) {
+        op = "*";
+      } else if (text.includes("/")) {
+        op = "/";
+      }
+
+      if (op === "") {
+        return;
+      }
+
+      var parts = text.split(op);
+      var n1 = Number(parts[0]);
+      var n2 = Number(parts[1]);
+
+      var ans = 0;
+
+      if (op === "+") {
+        ans = n1 + n2;
+      } else if (op === "-") {
+        ans = n1 - n2;
+      } else if (op === "*") {
+        ans = n1 * n2;
+      } else if (op === "/") {
+        if (n2 === 0) {
+          display.value = "Error";
+          return;
+        }
+        ans = n1 / n2;
+      }
+
+      display.value = ans;
+    }
+  </script>
+
+</body>
+</html>
